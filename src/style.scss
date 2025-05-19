@@ -1,0 +1,62 @@
+html {
+  color-scheme: light dark;
+}
+
+layer {
+  display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  &.background {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+    grid-template-areas: "background-image";
+
+    .background-image {
+      grid-area: background-image;
+
+      @media (prefers-color-scheme: dark) {
+        background-image: url("img/dark/background.jpg");
+        background-size: cover;
+        background-position: bottom;
+      }
+    }
+  }
+
+  &.interact {
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: 80px auto auto;
+    grid-template-areas:
+      ". . ."
+      ". title ."
+      ". . .";
+
+    .title {
+      grid-area: title;
+      position: relative;
+
+      aspect-ratio: 1;
+
+      .link {
+        position: absolute;
+        &.sell {
+          width: 30%;
+          left: 0%;
+          top: 11%;
+        }
+
+        &.everything {
+          width: 70%;
+          transform: rotate(-6deg);
+          right: 0%;
+          top: 5%;
+        }
+      }
+    }
+  }
+}
