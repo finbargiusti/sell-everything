@@ -7,9 +7,20 @@
     "start": "parcel",
     "build": "parcel build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@parcel/config-default": "^2.15.1",
+    "@parcel/transformer-raw": "^2.15.1",
+    "interactjs": "^1.10.27",
+    "three": "^0.176.0"
+  },
   "devDependencies": {
     "@parcel/transformer-sass": "2.15.1",
-    "parcel": "^2.14.0"
+    "parcel": "^2.14.0",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "parcel-reporter-static-files-copy": "^1.5.3"
+  },
+  "staticFiles": {
+    "staticPath": "src/static",
+    "watcherGlob": "**"
   }
 }

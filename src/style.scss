@@ -19,18 +19,21 @@ layer {
 
     .background-image {
       grid-area: background-image;
+      background-size: cover;
+      background-position: bottom;
 
       @media (prefers-color-scheme: dark) {
         background-image: url("img/dark/background.jpg");
-        background-size: cover;
-        background-position: bottom;
+      }
+      @media (prefers-color-scheme: light) {
+        background-image: url("img/light/background.jpg");
       }
     }
   }
 
   &.interact {
     grid-template-columns: 1fr 10fr 1fr;
-    grid-template-rows: 80px auto auto;
+    grid-template-rows: 2% auto auto;
     grid-template-areas:
       ". . ."
       ". title ."
@@ -42,21 +45,106 @@ layer {
 
       aspect-ratio: 1;
 
+
       .link {
         position: absolute;
+        transition: filter 0.5s ease-out;
+
+        filter: invert(84%) sepia(89%) saturate(6858%) hue-rotate(356deg) brightness(99%) contrast(115%);
+
+        @media (prefers-color-scheme: light) {
+          &:hover {
+            filter: invert(1);
+          }
+        }
+        
+        @media (prefers-color-scheme: dark) {
+          &:hover {
+            filter: invert(0);
+          }
+        }
+
+
         &.sell {
           width: 30%;
           left: 0%;
-          top: 11%;
+          top: 4%;
         }
 
         &.everything {
-          width: 70%;
-          transform: rotate(-6deg);
+          width: 68%;
           right: 0%;
-          top: 5%;
+          top: 0%;
         }
       }
+    }
+  }
+
+  &.decal {
+    grid-template-columns: 1fr 10fr 1fr;
+
+    @media (prefers-color-scheme: light) {
+      grid-template-rows: 5% auto auto;
+      grid-template-areas:
+        ". . ."
+        ". object ."
+        ". . .";
+
+      .decal-image {
+        display: none;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      grid-template-rows: 10% 1fr;
+      grid-template-areas:
+        ". . ."
+        "image image image";
+
+      .object-wrap {
+        display: none;
+
+        #object {
+          display: none;
+        }
+      }
+    }
+
+    .object-wrap {
+      grid-area: object;
+      position: relative;
+      aspect-ratio: 0.9;
+      pointer-events: none;
+
+      #object {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: all;
+      }
+    }
+
+    .decal-image {
+      grid-area: image;
+      background-image: url("img/dark/sketch.png");
+      background-size: cover;
+      background-position: 0% -50%;
+    }
+
+    .background-reoverlay {
+      @media (prefers-color-scheme: light) {
+        display: none;
+      }
+      grid-area: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: 0px;
+      background: url("img/dark/bg-overlay.png") no-repeat;
+      background-size: 59vw 77.5vw;
+      background-position: bottom right;
     }
   }
 }
