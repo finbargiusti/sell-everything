@@ -61,8 +61,9 @@ const init = async () => {
 
   camera.lookAt(0, 0, 0);
 
+  // TODO: change this back to root
   const objects = [
-    '/media/headscan-crop.glb'
+    '/sell-everything/media/headscan-crop.glb'
   ];
 
   return new Promise<void>((resolve) => {
