@@ -1,0 +1,35 @@
+name: Build with parcel
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '21'  
+
+    - name: Install dependencies
+      run: |
+        npm install -D
+
+    - name: Build static website
+      run: |
+        npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages  # The branch to deploy to
+        folder: dist      # The folder where the built site is located (use 'public' for Jekyll, 'dist' for Vue, etc.)
+        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically creates a token for the repository
+
