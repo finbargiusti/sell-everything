@@ -5,7 +5,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --no-source-maps --public-url /sell-everything/"
   },
   "dependencies": {
     "@parcel/config-default": "^2.15.1",
