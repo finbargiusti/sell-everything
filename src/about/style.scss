@@ -1,0 +1,51 @@
+layer {
+  display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  &.background {
+    background-image: url('../img/dark/about-background.png');
+    background-size: cover;
+    background-position: center left;
+  }
+
+  &.interact {
+    grid-template-columns: auto min(90%, 20em) auto;
+    grid-template-rows: 4fr auto 8fr;
+    grid-template-areas:
+      ". . ."
+      ". items ."
+      ". . .";
+
+    .items {
+      grid-area: items;
+      aspect-ratio: 1;
+      position: relative;
+
+      .contact {
+        position: absolute;
+        background-image: url('../img/links/contact.png');
+        top: 0%;
+        width: 100%;
+        height: 10%;
+        background-size: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .email {
+        position: absolute;
+        background-image: url('../img/links/email.png');
+        top: 5%;
+        width: 100%;
+        height: 20%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
