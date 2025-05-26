@@ -6,31 +6,33 @@
     <title>Sell Everything</title>
     <link rel="stylesheet" href="style.scss">
   </head>
-  <body>
+  <body class="dark">
     <layer class="background">
-      <div class="background-image"></div>
+      <div class="background-image dark"></div>
     </layer>
-    <layer class="decal">
+    <layer class="decal dark">
       <div class="decal-image"></div>
       <div class="object-wrap">
         <canvas id="object"></div>
       </div>
-      <div class="background-reoverlay"></div>
+      <div class="background-reoverlay dark"></div>
     </layer>
     <layer class="interact">
       <div class="title">
         <a href="https://mwejrz-4j.myshopify.com/">
-          <img class="link sell" 
+          <img class="link sell dark" 
           src="img/links/sell.png" 
           alt="Sell" />
         </a>
         <a href="about">
-          <img class="link everything" 
+          <img class="link everything dark" 
                src="img/links/everything.png" 
                alt="Everything" />
         </a>
+        <div class="modeswitcher dark" id="colorscheme-changer"> </div>
       </div>
     </layer>
+    <script src="theme.ts"></script>
     <script src="head.ts" type="module"></script>
   </body>
 </html>

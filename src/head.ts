@@ -6,28 +6,28 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
-import interact from 'interactjs';
-
-const renderers: { composer?: any; renderer?: any; pixelpass?: any } = {};
-
-const canvas = document.getElementById('object') as HTMLCanvasElement;
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  70,
-  canvas.clientWidth / canvas.clientHeight,
-  0.1,
-  2000
-);
-
-let object_group: THREE.Group;
-
-const slowDown = 0.0003;
-const baseSpeed = 0.01;
-
-let speed = 0.1;
+let renderLoop;
 
 const init = async () => {
+  const renderers: { composer?: any; renderer?: any; pixelpass?: any } = {};
+
+  const canvas = document.getElementById('object') as HTMLCanvasElement;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    70,
+    canvas.clientWidth / canvas.clientHeight,
+    0.1,
+    2000
+  );
+
+  let object_group: THREE.Group;
+
+  const slowDown = 0.0003;
+  const baseSpeed = 0.01;
+
+  let speed = 0.1;
+
   const objloader = new GLTFLoader();
 
   const ambientlight = new THREE.AmbientLight(0x77b2db, 4);
@@ -66,13 +66,25 @@ const init = async () => {
     '/sell-everything/media/headscan-crop.glb'
   ];
 
+  window.addEventListener(
+    'resize',
+    () => {
+      requestAnimationFrame(() => {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      });
+    },
+    false
+  );
+
+
   return new Promise<void>((resolve) => {
     objloader.load(
       objects[0],
       (site) => {
         object_group = site.scene;
         scene.add(object_group);
-        setInterval(() => {
+        renderLoop = setInterval(() => {
           requestAnimationFrame(() => {
             if (speed > baseSpeed)
               speed = Math.max(baseSpeed, speed - slowDown);
@@ -93,60 +105,30 @@ const init = async () => {
   });
 };
 
-init().then(() => {
-  canvas.classList.remove('unloaded');
-});
-
-window.addEventListener(
-  'resize',
-  () => {
-    requestAnimationFrame(() => {
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
+const loadIfLight = () => {
+  const isLight = document.body.classList.contains('light');
+  if (isLight) {
+    init().then(() => {
     });
-  },
-  false
-);
-
-let clicked = false;
-let timeClicked = 0;
-
-const OBJECT_SPEED_FACTOR = 1200;
-const OBJECT_MOVE_FACTOR = 1900;
-
-let speedSum = 0;
-
-interact(canvas).draggable({
-  listeners: {
-    start() {
-      clicked = true;
-      speed = 0;
-      speedSum = 0;
-      timeClicked = Date.now();
-    },
-    move(event) {
-      let diff = event.dx;
-      if (!diff) return;
-      if (clicked) {
-        speedSum += diff / OBJECT_SPEED_FACTOR;
-        scene.rotateY(diff / OBJECT_MOVE_FACTOR);
+  } else {
+    // destroy three and renderLoop if they are initialized
+    if (renderLoop) {
+      clearInterval(renderLoop);
+      renderLoop = undefined;
+    }
+    const canvas = document.getElementById('object') as HTMLCanvasElement;
+    if (canvas) {
+      const context = canvas.getContext('webgl');
+      if (context) {
+        context.clearColor(0, 0, 0, 0);
+        context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
       }
-    },
-    end() {
-      canvas.style.cursor = 'grab';
-      if (clicked) {
-        clicked = false;
-        timeClicked = Date.now() - timeClicked;
-        speed = speedSum / (timeClicked / 50);
-        if (Math.abs(speed) < slowDown) speed = slowDown;
-      }
-    },
-  },
+    }
+  }
+}
+
+window.addEventListener('load', () => {
+  loadIfLight();
+  document.getElementById('colorscheme-changer')?.addEventListener('click', loadIfLight);
 });
 
-// this prevents clicks on mobile
-// canvas.addEventListener('touchend', (event) => {
-//   if (event.cancellable) {
-//     event.preventDefault();
-//   }
-// });
