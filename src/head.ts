@@ -116,14 +116,6 @@ const loadIfLight = () => {
       clearInterval(renderLoop);
       renderLoop = undefined;
     }
-    const canvas = document.getElementById('object') as HTMLCanvasElement;
-    if (canvas) {
-      const context = canvas.getContext('webgl');
-      if (context) {
-        context.clearColor(0, 0, 0, 0);
-        context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
-      }
-    }
   }
 }
 
