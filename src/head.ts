@@ -108,13 +108,20 @@ const init = async () => {
 const loadIfLight = () => {
   const isLight = document.body.classList.contains('light');
   if (isLight) {
-    init().then(() => {
-    });
+    init().then(() => {});
   } else {
     // destroy three and renderLoop if they are initialized
     if (renderLoop) {
       clearInterval(renderLoop);
       renderLoop = undefined;
+    }
+
+    const canvas = document.getElementById('object') as HTMLCanvasElement;
+    if (canvas) {
+      const gl = canvas.getContext('webgl');
+      if (gl) {
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      }
     }
   }
 }
