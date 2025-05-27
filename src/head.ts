@@ -63,7 +63,7 @@ const init = async () => {
 
   // TODO: change this back to root
   const objects = [
-    '/sell-everything/media/headscan-crop.glb'
+    '/media/headscan-crop.glb'
   ];
 
   window.addEventListener(
