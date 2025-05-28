@@ -7,11 +7,19 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 let renderLoop;
+let resizeListner;
 
 const init = async () => {
+  // sleep for 0.1s
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+
   const renderers: { composer?: any; renderer?: any; pixelpass?: any } = {};
 
   const canvas = document.getElementById('object') as HTMLCanvasElement;
+  canvas.width = canvas.clientWidth * window.devicePixelRatio;
+  canvas.height = canvas.clientHeight * window.devicePixelRatio;
+
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
@@ -66,35 +74,37 @@ const init = async () => {
     '/media/headscan-crop.glb'
   ];
 
+  resizeListner = () => {
+    requestAnimationFrame(() => {
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    });
+  };
+
   window.addEventListener(
     'resize',
-    () => {
-      requestAnimationFrame(() => {
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-      });
-    },
+    resizeListner,
     false
   );
 
 
-  return new Promise<void>((resolve) => {
+  return new Promise<number>((resolve) => {
     objloader.load(
       objects[0],
       (site) => {
         object_group = site.scene;
         scene.add(object_group);
-        renderLoop = setInterval(() => {
-          requestAnimationFrame(() => {
-            if (speed > baseSpeed)
-              speed = Math.max(baseSpeed, speed - slowDown);
-            if (speed < baseSpeed)
-              speed = Math.min(baseSpeed, speed + slowDown);
-            object_group.rotateY(speed);
-            renderers.composer.render();
-          });
-        }, 1000 / 30);
-        resolve();
+        renderLoop =
+          resolve(setInterval(() => {
+            requestAnimationFrame(() => {
+              if (speed > baseSpeed)
+                speed = Math.max(baseSpeed, speed - slowDown);
+              if (speed < baseSpeed)
+                speed = Math.min(baseSpeed, speed + slowDown);
+              object_group.rotateY(speed);
+              renderers.composer.render();
+            });
+          }, 1000 / 30));
       },
       undefined,
       (err) => {
@@ -108,20 +118,14 @@ const init = async () => {
 const loadIfLight = () => {
   const isLight = document.body.classList.contains('light');
   if (isLight) {
-    init().then(() => {});
+    init().then(id => { renderLoop = id; });
   } else {
     // destroy three and renderLoop if they are initialized
     if (renderLoop) {
       clearInterval(renderLoop);
       renderLoop = undefined;
-    }
-
-    const canvas = document.getElementById('object') as HTMLCanvasElement;
-    if (canvas) {
-      const gl = canvas.getContext('webgl');
-      if (gl) {
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
-      }
+      window.removeEventListener('resize', resizeListner);
+      resizeListner = undefined;
     }
   }
 }
