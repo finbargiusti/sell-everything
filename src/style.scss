@@ -24,9 +24,14 @@ layer {
 
       &.dark {
         background-image: url("img/dark/background.jpg");
+        background-position: center;
       }
       &.light {
+        background-color: white;
         background-image: url("img/light/background.jpg");
+        background-size: min(100vw, 80vh);
+        background-repeat: no-repeat;
+        background-position: bottom left;
       }
     }
   }
@@ -79,6 +84,7 @@ layer {
       }
 
       .modeswitcher {
+        cursor: pointer;
         position: absolute;
         top: 18%;
         left: 40%;
@@ -104,6 +110,11 @@ layer {
 
     &.light {
       grid-template-rows: 10% auto auto;
+
+      @media (min-aspect-ratio: 1/1) {
+        grid-template-columns: 7fr 4fr 1fr;
+        grid-template-rows: 2fr auto 2fr;
+      }
       grid-template-areas:
         ". . ."
         ". object ."
