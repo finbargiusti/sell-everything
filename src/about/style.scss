@@ -1,5 +1,30 @@
+@keyframes scrollIn {
+  0% {
+    transform: translateX(0vw);
+  }
+  50% {
+    transform: translateX(-200vw);
+  }
+  100% {
+    transform: translateX(0vw);
+  }
+}
+
+@media (min-aspect-ratio: 1/1) {
+  @keyframes scrollIn {
+    0% {
+      transform: translateX(0vw);
+    }
+    50% {
+      transform: translateX(-50vw);
+    }
+    100% {
+      transform: translateX(0vw);
+    }
+  }
+}
+
 layer {
-  display: grid;
   position: absolute;
   top: 0;
   left: 0;
@@ -7,22 +32,83 @@ layer {
   height: 100%;
 
   &.background {
-    background-image: url('../img/dark/about-background.png');
-    background-size: cover;
-    background-position: center left;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    filter: brightness(0.7);
+
+    .floater {
+      position: absolute;
+      animation: scrollIn 30s ease infinite;
+      object-fit: cover;
+      object-position: bottom;
+
+      &.one {
+        top: 0%;
+        height: 100vh;
+        width: 100vw;
+        @media (min-aspect-ratio: 1/1) {
+          height: 100vh;
+          width: 50vw;
+        }
+      }
+
+      &.two {
+        top: 10vh;
+        left: calc(95vw - max(10vw, 15vh));
+        height: 60vh;
+        width: max(20vw, 30vh);
+        @media (min-aspect-ratio: 1/1) {
+          left: calc(45vw - max(10vw, 15vh));
+        }
+      }
+
+      &.three {
+        top: 0%;
+        left: 100vw;
+        height: 100vh;
+        width: 100vw;
+        @media (min-aspect-ratio: 1/1) {
+          left: 50vw;
+          height: 100vh;
+          width: 50vw;
+        }
+      }
+
+      &.four {
+        top: calc(50vh - 10vw);
+        left: calc(200vw - 25vh);
+        height: calc(30vh + 10vw);
+        aspect-ratio: 1;
+        @media (min-aspect-ratio: 1/1) {
+          left: calc(100vw - 25vh);
+          height: calc(30vh + 10vw);
+        }
+      }
+
+      &.five {
+        left: 200vw;
+        width: 100vw;
+        height: 100vh;
+        top: 0%;
+        @media (min-aspect-ratio: 1/1) {
+          left: 100vw;
+          height: 100vh;
+          width: 50vw;
+        }
+      }
+    }
   }
 
   &.interact {
-    grid-template-columns: auto min(90%, 20em) auto;
-    grid-template-rows: 4fr auto 8fr;
-    grid-template-areas:
-      ". . ."
-      ". items ."
-      ". . .";
+    overflow-y: scroll;
 
     .items {
-      grid-area: items;
-      aspect-ratio: 1;
+      width: min(90%, 40em);
+      margin-top: 4em;
+      margin-bottom: 4em;
+      margin-left: auto;
+      margin-right: auto;
+      aspect-ratio: 4;
       position: relative;
 
       .contact {
@@ -39,13 +125,24 @@ layer {
       .email {
         position: absolute;
         background-image: url('../img/links/email.png');
-        top: 5%;
+        top: 50%;
         width: 100%;
-        height: 20%;
+        height: 50%;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
       }
+    }
+
+    .text {
+      color: #fff;
+      font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+      font-weight: 300;
+      text-shadow: 0 0px 1px #000;
+      text-align: justify;
+      font-size: 1.1em;
+      width: min(90%, 23em);
+      margin: 0 auto 0 auto;
     }
   }
 }
