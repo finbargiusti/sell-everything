@@ -1,0 +1,1 @@
+window.addEventListener("load",()=>{document.querySelector(".email").addEventListener("click",()=>{navigator.clipboard.writeText("selleverythingpls@gmail.com").then(()=>{alert("Copied!")}).catch(e=>{console.error("Failed to copy email: ",e)})})});
