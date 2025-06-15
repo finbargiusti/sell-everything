@@ -34,7 +34,7 @@ layer {
   &.background {
     overflow-x: scroll;
     overflow-y: hidden;
-    filter: brightness(0.7);
+    filter: brightness(0.5);
 
     .floater {
       position: absolute;
@@ -103,46 +103,46 @@ layer {
     overflow-y: scroll;
 
     .items {
-      width: min(90%, 40em);
       margin-top: 4em;
-      margin-bottom: 4em;
       margin-left: auto;
       margin-right: auto;
-      aspect-ratio: 4;
       position: relative;
 
       .contact {
-        position: absolute;
         background-image: url('../img/links/contact.png');
-        top: 0%;
-        width: 100%;
-        height: 10%;
-        background-size: 50%;
         background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .email {
-        position: absolute;
-        background-image: url('../img/links/email.png');
-        top: 50%;
-        width: 100%;
-        height: 50%;
         background-size: contain;
+        aspect-ratio: 13;
+        width: min(70%, 23em);
+        margin: 0 auto 3em auto;
+      }
+      .email {
+        background-image: url('../img/links/email.png');
+        background-position: center;
+        background-size: contain;
+        aspect-ratio: 15;
+        width: min(90%, 30em);
+        margin: 0 auto 3em auto;
+      }
+      .about {
+        background-image: url('../img/links/about.png');
         background-position: center;
         background-repeat: no-repeat;
+        background-size: contain;
+        aspect-ratio: 5;
+        width: min(70%, 30em);
+        margin: 0 auto 3em auto;
       }
-    }
-
-    .text {
-      color: #fff;
-      font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
-      font-weight: 300;
-      text-shadow: 0 0px 1px #000;
-      text-align: justify;
-      font-size: 1.1em;
-      width: min(90%, 23em);
-      margin: 0 auto 0 auto;
+      .text {
+        color: #fff;
+        font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+        font-weight: 300;
+        text-shadow: 0 0px 1px #000;
+        text-align: justify;
+        font-size: 1.1em;
+        width: min(90%, 23em);
+        margin: 0 auto 0 auto;
+      }
     }
   }
 }
