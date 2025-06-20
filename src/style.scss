@@ -174,3 +174,24 @@ layer {
     }
   }
 }
+
+.credit {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+
+  &.dark {
+    color: white;
+    text-shadow: 0.05em -0.05em #000;
+  }
+
+  &.light {
+    color: black;
+    text-shadow: none;
+  }
+
+  a {
+    color: inherit;
+  }
+}
